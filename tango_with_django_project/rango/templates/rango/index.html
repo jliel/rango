@@ -6,9 +6,19 @@
     </head>
 
     <body>
-    <h1>Rango Says...</h1>
-    hello world! <strong>{{ boldmessage }}</strong><br/>
-    <a href="/rango/about/">About</a><br/>
-    <img src="{% static 'rango/img/rango.jpg' %}" alt="picture of Rango" />
+        <h1>Rango Says...</h1>
+        hello world! <br />
+        {% if categories %}
+            <strong>Categories</strong><br/>
+            <ul>
+                {% for category in categories %}
+                    <li>
+                        <a href="#">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <a href="/rango/about/">About</a><br/>
+        <img src="{% static 'rango/img/rango.jpg' %}" alt="picture of Rango" />
     </body>
 </html>
