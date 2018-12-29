@@ -13,12 +13,24 @@
             <ul>
                 {% for category in categories %}
                     <li>
-                        <a href="#">{{ category.name }}</a>
+                        <a href="category/{{ category.url }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+             <strong>There's no categories</strong><br/>
+        {% endif %}
+        {% if pages %}
+            <strong>Most viewed pages.</strong><br/>
+            <ul>
+                {% for page in pages %}
+                    <li>
+                        <a href="{{ page.url }}">{{ page.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
         {% endif %}
-        <a href="/rango/about/">About</a><br/>
+        <a href="about/">About</a><br/>
         <img src="{% static 'rango/img/rango.jpg' %}" alt="picture of Rango" />
     </body>
 </html>
