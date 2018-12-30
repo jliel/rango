@@ -16,6 +16,14 @@ class PageForm(forms.ModelForm):
     url = forms.URLField(help_text="Please enter the URL of the page.")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 
+    def clean(self):
+        cleaned_data = super().clean()
+        url = self.cleaned_data.get('url')
+        if not url.startswith('http://'):
+            url += 'http://'
+            cleaned_data['url'] = url
+        return cleaned_data
+
     class Meta:
         model = Page
         fields = ('title', 'url', 'views')
