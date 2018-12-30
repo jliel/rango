@@ -1,6 +1,7 @@
 from django.shortcuts import render
 # from django.http import HttpResponse
 from rango.models import Category, Page
+from rango.forms import Categoryform
 
 
 def index(request):
@@ -41,3 +42,16 @@ def encode_url(category_name_url):
 
 def decode_url(category_name):
     return category_name.replace(' ', '_')
+
+def add_category(request):
+    if request.method == "POST":
+        form = Categoryform(request.POST)
+
+        if form.is_valid():
+            form.save(commit=True)
+            return index(request)
+        else:
+            print(form.errors)
+    else:
+        form = Categoryform()
+    return render(request, 'rango/add_category.html', {'form': form})
