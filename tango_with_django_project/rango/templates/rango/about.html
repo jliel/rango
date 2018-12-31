@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-    <head>
-        <title>About</title>
-    </head>
+{% extends "rango/base.html" %}
 
-    <body>
+{% block title %}About...{% endblock  %}
+
+{% block body_block %}
+{% load static %}
     <h1>Rango Says...</h1>
     <strong>{{ nab_message }}</strong><br/>
-    <a href="/">Index</a><br/>
     <img src="{% static 'rango/img/about.jpeg' %}" alt="picture of about" />
-    </body>
-</html>
+{% endblock %}
