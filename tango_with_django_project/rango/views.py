@@ -3,7 +3,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from rango.models import Category, Page
 from rango.forms import Categoryform, PageForm, UserForm, UserProfileForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -39,6 +40,7 @@ def category(request, category_name_url):
     return render(request, 'rango/category.html', context_dict)
 
 
+@login_required
 def add_category(request):
     if request.method == "POST":
         form = Categoryform(request.POST)
@@ -53,6 +55,7 @@ def add_category(request):
     return render(request, 'rango/add_category.html', {'form': form})
 
 
+@login_required
 def add_page(request, category_name_url):
     category_name = encode_url(category_name_url)
     if request.method == "POST":
@@ -117,7 +120,13 @@ def user_login(request):
             print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'rango/login.html',  {})
+        return render(request, 'rango/login.html', {})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')
 
 
 def encode_url(category_name_url):
