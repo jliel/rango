@@ -6,8 +6,11 @@
     </head>
 
     <body>
-        <h1>Rango Says...</h1>
-        hello world! <br />
+        {% if user.is_authenticated %}
+            <h1>Rango says... hello {{ user.username }}!</h1>
+        {% else %}
+            <h1>Rango says... hello world!</h1>
+        {% endif %}
         {% if categories %}
             <strong>Categories</strong><br/>
             <ul>
@@ -31,7 +34,7 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <a href="register/">Register Here!</a>
+        <a href="register/">Register Here!</a>or<a href="login/"><strong>Log-in</strong></a><br/>
         <a href="about/">About</a><br/>
         <img src="{% static 'rango/img/rango.jpg' %}" alt="picture of Rango" />
     </body>
