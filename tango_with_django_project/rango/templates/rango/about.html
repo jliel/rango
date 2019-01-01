@@ -1,10 +1,14 @@
 {% extends "rango/base.html" %}
 
+{% load bootstrap4 %}
+
 {% block title %}About...{% endblock  %}
 
 {% block body_block %}
 {% load static %}
-    <h1>Rango Says...</h1>
-    <strong>{{ nab_message }}</strong><br/>
-    <img src="{% static 'rango/img/about.jpeg' %}" alt="picture of about" />
+    <div class="hero-unit">
+        <h1>Rango Says...</h1>
+        <strong>{{ nab_message }}</strong><br/>
+        <img src="{% static 'rango/img/about.jpeg' %}" alt="picture of about" />
+    </div>
 {% endblock %}

@@ -1,25 +1,69 @@
 <!DOCTYPE html>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
 <html>
     <head>
-        <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
+       <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
     </head>
     <body>
-        <div>
-            <a href="/">Home</a>
-            {% block body_block %}{% endblock %}
-        </div>
-        <hr />
-        <div>
-            <ul>
-                {% if user.is_authenticated %}
-                    <li><a href="logout/">Logout</a></li>
-                    <li><a href="add_category/">Add a New Category</a></li>
-                {% else %}
-                    <li><a href="register/">Register Here</a></li>
-                    <li><a href="login/">Login</a></li>
-                {% endif %}
-                    <li><a href="about/">About</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'home' %}">Rango</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'add_category' %}">Add Category<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'about' %}">About<span class="sr-only">(current)</span></a>
+                    </li>
+                     
+                </ul>
+                <span class="navbar-text">
+                    <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %}
+                            <li class="navbar-text">Welcome, {{ user.username }}!</li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'logout' %}">Log-out<span class="sr-only">(current)</span></a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'login' %}">Log-in<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'register' %}">Register<span class="sr-only">(current)</span></a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </span>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <div class="well sidebar-nav">
+                        {% block side_nav_block %}
+                        {% endblock  %}
+                     </div><!--/.well -->
+                </div><!--/span-->
+                <div class="span9">
+                    {% block body_block %}
+                    {% endblock %}
+                </div><!--/span-->
+            </div><!--/row-->
+
+            <hr>
+
+            <footer>
+                <p>&copy;Tango With Django</p>
+            </footer>
+
         </div>
     </body>
 </html>

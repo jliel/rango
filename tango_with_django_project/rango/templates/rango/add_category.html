@@ -1,22 +1,20 @@
 {% extends "rango/base.html" %}
 
+{% load bootstrap4 %}
+
 {% block title %}Add category{% endblock  %}
 
 {% block body_block %}
-    <h1>Add a category.</h1>
-    <form id="category_form" method="post" action="/add_category/">
-        <!-- {% csrf_token %}
-        {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-        {% for field in form.visible_fields %}
-            {{ field.errors }}
-            {{ field.help_text }}
-            {{ field }}
-        {% endfor %} -->
-        {% csrf_token %}
-        {{ form.as_p }}
+    <div class="hero-unit">
+        <h1>Add a category.</h1>
+        <br/>
+        <div class="container">
+            <form class="span6" id="category_form" method="post" action="/add_category/">
+                {% csrf_token %}
+                {{ form.as_p }}
 
-        <input type="submit" name="submit" value="Create Category" />
-    </form>
+                <input class="btn btn-primary" type="submit" name="submit" value="Create Category" />
+            </form>
+        </div>
+    </div>
 {% endblock %}

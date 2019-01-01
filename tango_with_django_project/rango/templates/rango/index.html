@@ -2,32 +2,46 @@
 
 {% block title %}Rango Says...{% endblock  %}
 
+{% load bootstrap4 %}
+
+{% block side_nav_block %}
+{% endblock %}
+
 {% block body_block %}
-    {% if user.is_authenticated %}
-        <h1>Rango says... hello {{ user.username }}!</h1>
-    {% else %}
-        <h1>Rango says... hello world!</h1>
-    {% endif %}
-    {% if categories %}
-        <strong>Categories</strong><br/>
-        <ul>
-            {% for category in categories %}
-                <li>
-                    <a href="category/{{ category.url }}">{{ category.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-            <strong>There's no categories</strong><br/>
-    {% endif %}
-    {% if pages %}
-        <strong>Most viewed pages.</strong><br/>
-        <ul>
-            {% for page in pages %}
-                <li>
-                    <a href="{{ page.url }}">{{ page.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="hero-unit">
+        {% if user.is_authenticated %}
+            <h1>Rango says... hello {{ user.username }}! Ready to Rango</h1>
+        {% else %}
+            <h1>Rango says... hello world!</h1>
+        {% endif %}
+        <p>find, Add, Share and rango useful links and resources</p>
+        <div class="row-fluid">
+            <div class="span6">
+                {% if categories %}
+                    <h2>Top Five Categories</h2><br/>
+                    <ul>
+                        {% for category in categories %}
+                            <li>
+                                <a href="category/{{ category.url }}">{{ category.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                        <strong>There's no categories</strong><br/>
+                {% endif %}
+                </div>
+                <div class="span6">
+                {% if pages %}
+                    <h2>Top five Pages.</h2><br/>
+                    <ul>
+                        {% for page in pages %}
+                            <li>
+                                <a href="{{ page.url }}">{{ page.title }}</a> - {{ page.category }} {{ page.views }} view{{ page.views|pluralize }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
