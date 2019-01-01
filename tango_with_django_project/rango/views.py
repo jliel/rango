@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse
 from rango.models import Category, Page
 from rango.forms import Categoryform, PageForm, UserForm, UserProfileForm
@@ -15,8 +16,18 @@ def index(request):
     pages = Page.objects.all().order_by('-views')[:5]
     for category in category_list:
         category.url = category.name.replace(' ', '_')
-    return render(request, 'rango/index.html', {"categories": category_list,
+    response = render(request, 'rango/index.html', {"categories": category_list,
                                                 "pages": pages})
+    visits = int(request.COOKIES.get('visits', '0'))
+    if 'last_visit' in request.COOKIES:
+        last_visit = request.COOKIES['last_visit']
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+        if (datetime.now() - last_visit_time).days > 0:
+            response.set_cookie('visits', visits+1)
+            response.set_cookie('last_visit', datetime.now())
+    else:
+        response.set_cookie('last_visit', datetime.now())
+    return response
 
 
 def about(request):
