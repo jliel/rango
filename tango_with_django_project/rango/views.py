@@ -16,18 +16,30 @@ def index(request):
     pages = Page.objects.all().order_by('-views')[:5]
     for category in category_list:
         category.url = category.name.replace(' ', '_')
-    response = render(request, 'rango/index.html', {"categories": category_list,
-                                                "pages": pages})
-    visits = int(request.COOKIES.get('visits', '0'))
-    if 'last_visit' in request.COOKIES:
-        last_visit = request.COOKIES['last_visit']
-        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
-        if (datetime.now() - last_visit_time).days > 0:
-            response.set_cookie('visits', visits+1)
-            response.set_cookie('last_visit', datetime.now())
+    # response = render(request, 'rango/index.html', {"categories": category_list,
+    #                                            "pages": pages})
+    # Client side cookies
+    # visits = int(request.COOKIES.get('visits', '0'))
+    # if 'last_visit' in request.COOKIESj:
+    #    last_visit = request.COOKIES['last_visit']
+    #    last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+    #    if (datetime.now() - last_visit_time).days > 0:
+    #        response.set_cookie('visits', visits+1)
+    #        response.set_cookie('last_visit', datetime.now())
+    # else:
+    #    response.set_cookie('last_visit', datetime.now())
+    if request.session.get('last_visit'):
+        last_visit_time = request.session.get('last_visit')
+        visits = request.session.get('visits', 0)
+        if (datetime.now() - datetime.strptime(last_visit_time[:-7], "%Y-%m-%d %H:%M:%S")).days > 0:
+            request.session['visits'] = visits + 1
+            request.session['last_visit'] = str(datetime.now())
     else:
-        response.set_cookie('last_visit', datetime.now())
-    return response
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = 1
+    # return response
+    return render(request, 'rango/index.html', {"categories": category_list,
+                                                "pages": pages})
 
 
 def about(request):
